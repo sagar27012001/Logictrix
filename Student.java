@@ -7,7 +7,6 @@ abstract class Db {
     abstract void delete(Connection con) throws SQLException;
     abstract void display(Connection con) throws SQLException;
     abstract void search(Connection con) throws SQLException;
-
 }
 
 class Admin extends Db {
@@ -79,17 +78,76 @@ class Admin extends Db {
     }
     @Override
     void search(Connection con) throws SQLException {
-        System.out.print("Enter user name to search record : ");
-        uname = scr.next();
-        query = "SELECT * FROM "+ tname + " where uname='" + uname + "'";
-        Statement st2 = con.createStatement();
-        ResultSet rs = st2.executeQuery(query);
-        System.out.println("Username -> Password");
-        while(rs.next()) {
-            String name = rs.getString(1) + " -> " + rs.getString(2);
-            System.out.println(name);
+        int ch;
+        System.out.println("1.Like statement/2.Simple search");
+        System.out.print("Enter your choice : ");
+        ch = scr.nextInt();
+        switch(ch) {
+            case 1:
+                int ch2;
+                System.out.println("1.Starting from/2.Containing/3.Ending with");
+                System.out.print("Enter your choice : ");
+                ch2 = scr.nextInt();
+                switch(ch2) {
+                    case 1:
+                        System.out.print("Enter initial characters of user name to search record : ");
+                        uname = scr.next();
+                        query = "SELECT * FROM "+ tname + " where uname like'" + uname + "%'";
+                        Statement st2 = con.createStatement();
+                        ResultSet rs = st2.executeQuery(query);
+                        System.out.println("Username -> Password");
+                        while(rs.next()) {
+                            String name = rs.getString(1) + " -> " + rs.getString(2);
+                            System.out.println(name);
+                        }
+                        st2.close();
+                        break;
+                    case 2:
+                        System.out.print("Enter middle characters of user name to search record : ");
+                        uname = scr.next();
+                        query = "SELECT * FROM "+ tname + " where uname like'%" + uname + "%'";
+                        Statement st3 = con.createStatement();
+                        ResultSet rs2 = st3.executeQuery(query);
+                        System.out.println("Username -> Password");
+                        while(rs2.next()) {
+                            String name = rs2.getString(1) + " -> " + rs2.getString(2);
+                            System.out.println(name);
+                        }
+                        st3.close();
+                        break;
+                    case 3:
+                        System.out.print("Enter ending characters of user name to search record : ");
+                        uname = scr.next();
+                        query = "SELECT * FROM "+ tname + " where uname like'%" + uname + "'";
+                        Statement st4 = con.createStatement();
+                        ResultSet rs3 = st4.executeQuery(query);
+                        System.out.println("Username -> Password");
+                        while(rs3.next()) {
+                            String name = rs3.getString(1) + " -> " + rs3.getString(2);
+                            System.out.println(name);
+                        }
+                        st4.close();
+                        break;
+                    default:
+                        System.out.println("Enter valid choice");
+                }
+                break;
+            case 2:
+                System.out.print("Enter user name to search record : ");
+                uname = scr.next();
+                query = "SELECT * FROM "+ tname + " where uname='" + uname + "'";
+                Statement st2 = con.createStatement();
+                ResultSet rs = st2.executeQuery(query);
+                System.out.println("Username -> Password");
+                while(rs.next()) {
+                    String name = rs.getString(1) + " -> " + rs.getString(2);
+                    System.out.println(name);
+                }
+                st2.close();
+                break;
+            default:
+                System.out.println("Enter valid choice");
         }
-        st2.close();
     }
 }
 class School_info extends Db{
@@ -171,27 +229,141 @@ class School_info extends Db{
     }
     @Override
     void search(Connection con) throws SQLException {
-        System.out.print("Enter roll no to search record : ");
-        roll = scr.nextInt();
-        query = "SELECT * FROM "+ tname + " where roll=" + roll;
-        Statement st2 = con.createStatement();
-        ResultSet rs = st2.executeQuery(query);
-        System.out.println("Roll no -> Department -> Course -> Address");
-        while(rs.next()) {
-            String name = rs.getInt(1) + " -> " + rs.getString(2) + " -> " + rs.getString(3) + " -> " + rs.getString(4);
-            System.out.println(name);
+        int ch;
+        System.out.println("1.Like statement/2.Simple search");
+        System.out.print("Enter your choice : ");
+        ch = scr.nextInt();
+        switch (ch) {
+            case 1:
+                int ch2;
+                System.out.println("1.Starting from/2.Containing/3.Ending with");
+                System.out.print("Enter your choice : ");
+                ch2 = scr.nextInt();
+                System.out.println("1.To search using department name/2.To search using address");
+                System.out.print("Enter your choice : ");
+                int ch3 = scr.nextInt();
+                if(ch3 == 1) {
+                    switch (ch2) {
+                        case 1:
+                            System.out.print("Enter initial characters of department name to search record : ");
+                            dept = scr.next();
+                            query = "SELECT * FROM " + tname + " where dept like'" + dept + "%'";
+                            Statement st2 = con.createStatement();
+                            ResultSet rs = st2.executeQuery(query);
+                            System.out.println("Roll no -> Department -> Course -> Address");
+                            while (rs.next()) {
+                                String name = rs.getInt(1) + " -> " + rs.getString(2) + " -> " + rs.getString(3) + " -> " + rs.getString(4);
+                                System.out.println(name);
+                            }
+                            st2.close();
+                            break;
+                        case 2:
+                            System.out.print("Enter middle characters of department name to search record : ");
+                            dept = scr.next();
+                            query = "SELECT * FROM " + tname + " where dept like'%" + dept + "%'";
+                            Statement st3 = con.createStatement();
+                            ResultSet rs2 = st3.executeQuery(query);
+                            System.out.println("Roll no -> Department -> Course -> Address");
+                            while (rs2.next()) {
+                                String name = rs2.getInt(1) + " -> " + rs2.getString(2) + " -> " + rs2.getString(3) + " -> " + rs2.getString(4);
+                                System.out.println(name);
+                            }
+                            st3.close();
+                            break;
+                        case 3:
+                            System.out.print("Enter ending characters of department name to search record : ");
+                            dept = scr.next();
+                            query = "SELECT * FROM " + tname + " where dept like'%" + dept + "'";
+                            Statement st4 = con.createStatement();
+                            ResultSet rs3 = st4.executeQuery(query);
+                            System.out.println("Roll no -> Department -> Course -> Address");
+                            while (rs3.next()) {
+                                String name = rs3.getInt(1) + " -> " + rs3.getString(2) + " -> " + rs3.getString(3) + " -> " + rs3.getString(4);
+                                System.out.println(name);
+                            }
+                            st4.close();
+                            break;
+                        default:
+                            System.out.println("Enter valid choice");
+                    }
+                }
+                else if(ch3 == 2) {
+                    switch (ch2) {
+                        case 1:
+                            System.out.print("Enter initial characters of address to search record : ");
+                            add = scr.next();
+                            query = "SELECT * FROM " + tname + " where addr like'" + add + "%'";
+                            Statement st2 = con.createStatement();
+                            ResultSet rs = st2.executeQuery(query);
+                            System.out.println("Roll no -> Department -> Course -> Address");
+                            while (rs.next()) {
+                                String name = rs.getInt(1) + " -> " + rs.getString(2) + " -> " + rs.getString(3) + " -> " + rs.getString(4);
+                                System.out.println(name);
+                            }
+                            st2.close();
+                            break;
+                        case 2:
+                            System.out.print("Enter middle characters of department name to search record : ");
+                            add = scr.next();
+                            query = "SELECT * FROM " + tname + " where addr like'%" + add + "%'";
+                            Statement st3 = con.createStatement();
+                            ResultSet rs2 = st3.executeQuery(query);
+                            System.out.println("Roll no -> Department -> Course -> Address");
+                            while (rs2.next()) {
+                                String name = rs2.getInt(1) + " -> " + rs2.getString(2) + " -> " + rs2.getString(3) + " -> " + rs2.getString(4);
+                                System.out.println(name);
+                            }
+                            st3.close();
+                            break;
+                        case 3:
+                            System.out.print("Enter ending characters of department name to search record : ");
+                            add = scr.next();
+                            query = "SELECT * FROM " + tname + " where addr like'%" + add + "'";
+                            Statement st4 = con.createStatement();
+                            ResultSet rs3 = st4.executeQuery(query);
+                            System.out.println("Roll no -> Department -> Course -> Address");
+                            while (rs3.next()) {
+                                String name = rs3.getInt(1) + " -> " + rs3.getString(2) + " -> " + rs3.getString(3) + " -> " + rs3.getString(4);
+                                System.out.println(name);
+                            }
+                            st4.close();
+                            break;
+                        default:
+                            System.out.println("Enter valid choice");
+                    }
+                }
+                else {
+                    System.out.println("Enter valid choice");
+                }
+                break;
+            case 2:
+                System.out.print("Enter roll no to search record : ");
+                roll = scr.nextInt();
+                query = "SELECT * FROM " + tname + " where roll=" + roll;
+                Statement st2 = con.createStatement();
+                ResultSet rs = st2.executeQuery(query);
+                System.out.println("Roll no -> Department -> Course -> Address");
+                while (rs.next()) {
+                    String name = rs.getInt(1) + " -> " + rs.getString(2) + " -> " + rs.getString(3) + " -> " + rs.getString(4);
+                    System.out.println(name);
+                }
+                st2.close();
+                break;
         }
-        st2.close();
     }
 }
-class Student_tb extends Db{
-    String name,query;
-    int roll,mark;
+
+class Student_tb extends Db {
+    String name, query;
+    int roll, mark;
     String tname;
+
     public Student_tb() {
         tname = "student";
     }
+
     Scanner scr = new Scanner(System.in);
+
     @Override
     void insert(Connection con) throws SQLException {
         System.out.print("Enter roll no : ");
@@ -200,19 +372,19 @@ class Student_tb extends Db{
         name = scr.next();
         System.out.print("Enter Marks : ");
         mark = scr.nextInt();
-        query = "INSERT INTO "+ tname +" VALUES (?,?,?)";
+        query = "INSERT INTO " + tname + " VALUES (?,?,?)";
         PreparedStatement st = con.prepareStatement(query);
         st.setInt(1, roll);
         st.setString(2, name);
         st.setInt(3, mark);
-        if(st.executeUpdate() != 0) {
+        if (st.executeUpdate() != 0) {
             System.out.println("Data inserted");
-        }
-        else {
+        } else {
             System.out.println("Error while inserting data");
         }
         st.close();
     }
+
     @Override
     void update(Connection con) throws SQLException {
         System.out.print("Enter existing roll no to update Record : ");
@@ -221,58 +393,115 @@ class Student_tb extends Db{
         name = scr.next();
         System.out.print("Enter updated Marks : ");
         mark = scr.nextInt();
-        query= "UPDATE " + tname +" SET name='" + name +"',marks="+ mark + " WHERE roll=" + roll;
+        query = "UPDATE " + tname + " SET name='" + name + "',marks=" + mark + " WHERE roll=" + roll;
         Statement st4 = con.createStatement();
-        if(st4.executeUpdate(query) != 0) {
+        if (st4.executeUpdate(query) != 0) {
             System.out.println("Record updated successfully");
-        }
-        else {
+        } else {
             System.out.println("Error while updating");
         }
         st4.close();
     }
+
     @Override
     void delete(Connection con) throws SQLException {
         System.out.print("Enter roll no to delete Record : ");
         roll = scr.nextInt();
-        query = "DELETE from "+ tname +" WHERE roll=" + roll;
+        query = "DELETE from " + tname + " WHERE roll=" + roll;
         Statement st5 = con.createStatement();
-        if(st5.executeUpdate(query) != 0) {
+        if (st5.executeUpdate(query) != 0) {
             System.out.println("Record deleted succesfully");
-        }
-        else {
+        } else {
             System.out.println("Error while deleting Record");
         }
         st5.close();
     }
+
     @Override
     void display(Connection con) throws SQLException {
         query = "SELECT * FROM " + tname;
         Statement st3 = con.createStatement();
         ResultSet rs2 = st3.executeQuery(query);
         System.out.println("Roll no -> Name -> Marks");
-        while(rs2.next()) {
+        while (rs2.next()) {
             name = rs2.getInt(1) + " -> " + rs2.getString(2) + " -> " + rs2.getInt(3);
             System.out.println(name);
         }
         st3.close();
     }
+
     @Override
     void search(Connection con) throws SQLException {
-        System.out.print("Enter roll no to search record : ");
-        roll = scr.nextInt();
-        query = "SELECT * FROM "+ tname + " where roll=" + roll;
-        Statement st2 = con.createStatement();
-        ResultSet rs = st2.executeQuery(query);
-        System.out.println("Roll no -> Name -> Marks");
-        while(rs.next()) {
-            name = rs.getInt(1) + " -> " + rs.getString(2) + " -> " + rs.getInt(3);
-            System.out.println(name);
+        int ch;
+        System.out.println("1.Like statement/2.Simple search");
+        System.out.print("Enter your choice : ");
+        ch = scr.nextInt();
+        switch (ch) {
+            case 1:
+                int ch2;
+                System.out.println("1.Starting from/2.Containing/3.Ending with");
+                System.out.print("Enter your choice : ");
+                ch2 = scr.nextInt();
+                switch (ch2) {
+                    case 1:
+                        System.out.print("Enter initial characters of name to search record : ");
+                        name = scr.next();
+                        query = "SELECT * FROM " + tname + " where name like'" + name + "%'";
+                        Statement st2 = con.createStatement();
+                        ResultSet rs = st2.executeQuery(query);
+                        System.out.println("Roll no -> Name -> Marks");
+                        while (rs.next()) {
+                            name = rs.getInt(1) + " -> " + rs.getString(2) + " -> " + rs.getInt(3);
+                            System.out.println(name);
+                        }
+                        st2.close();
+                        break;
+                    case 2:
+                        System.out.print("Enter middle characters of name to search record : ");
+                        name = scr.next();
+                        query = "SELECT * FROM " + tname + " where name like'%" + name + "%'";
+                        Statement st3 = con.createStatement();
+                        ResultSet rs2 = st3.executeQuery(query);
+                        System.out.println("Roll no -> Name -> Marks");
+                        while (rs2.next()) {
+                            name = rs2.getInt(1) + " -> " + rs2.getString(2) + " -> " + rs2.getInt(3);
+                            System.out.println(name);
+                        }
+                        st3.close();
+                        break;
+                    case 3:
+                        System.out.print("Enter ending characters of name to search record : ");
+                        name = scr.next();
+                        query = "SELECT * FROM " + tname + " where name like'%" + name + "'";
+                        Statement st4 = con.createStatement();
+                        ResultSet rs3 = st4.executeQuery(query);
+                        System.out.println("Roll no -> Name -> Marks");
+                        while (rs3.next()) {
+                            name = rs3.getInt(1) + " -> " + rs3.getString(2) + " -> " + rs3.getInt(3);
+                            System.out.println(name);
+                        }
+                        st4.close();
+                        break;
+                    default:
+                        System.out.println("Enter valid choice");
+                }
+                break;
+            case 2:
+                System.out.print("Enter roll no to search record : ");
+                roll = scr.nextInt();
+                query = "SELECT * FROM " + tname + " where roll=" + roll;
+                Statement st2 = con.createStatement();
+                ResultSet rs = st2.executeQuery(query);
+                System.out.println("Roll no -> Name -> Marks");
+                while (rs.next()) {
+                    name = rs.getInt(1) + " -> " + rs.getString(2) + " -> " + rs.getInt(3);
+                    System.out.println(name);
+                }
+                st2.close();
+                break;
         }
-        st2.close();
     }
 }
-
 
 public class Student {
     public static void main(String[] args) throws Exception {
@@ -311,9 +540,12 @@ public class Student {
 //        }
 
         do{
-            System.out.println("1.Admin/2.Student/3.Student info");
+            System.out.println("1.Admin/2.Student/3.Student info/0.Exit");
             System.out.print("Enter your choice : ");
             int ch2 = scr.nextInt();
+            if(ch2 == 0) {
+                break;
+            }
             System.out.print("1.Insert/");
             System.out.print("2.Delete/");
             System.out.print("3.Update/");
